@@ -1,4 +1,5 @@
-source utils.sh
+#!/bin/bash
+source scripts/utils.sh
 
 cecho "##############################################################" $green
 cecho "                                                              " $green

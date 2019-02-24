@@ -1,5 +1,5 @@
 #!/bin/bash
-source utils.sh
+source scripts/utils.sh
 
 cecho "################################################################################################" $blue
 cecho "                                                                                                " $blue

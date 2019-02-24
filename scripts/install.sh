@@ -1,5 +1,5 @@
 #!/bin/bash
-source utils.sh
+source scripts/utils.sh
 
 # Homebrew
 echo ""
@@ -17,7 +17,7 @@ while read app
 do
     cecho "Installing ${app}" $blue
     brew cask install "$app"
-done <data/cask_apps
+done <scripts/data/cask_apps
 
 echo ""
 cecho "================= Installing Brew apps =================" $green
@@ -25,7 +25,7 @@ while read app
 do
     cecho "Installing ${app}" $blue
     brew install "$app"
-done <data/brew_apps
+done <scripts/data/brew_apps
 
 echo ""
 cecho "=============== Install node global tools ===============" $green
@@ -51,7 +51,7 @@ echo "Is app store login complete.(y/n)? "
 read response
 if [ "$response" != "${response#[Yy]}" ]
 then
-	source mac-apps-install.sh
+	source scripts/mac-apps-install.sh
 else
 	cecho "App Store login not complete. Skipping installing App Store Apps" $red
 fi

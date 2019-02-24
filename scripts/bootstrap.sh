@@ -1,5 +1,5 @@
 #!/bin/bash
-source utils.sh
+source scripts/utils.sh
 
 FILES=('.bash_profile' '.bash_prompt' '.exports' '.aliases' '.gitconfig')
 CURRENTPATH=$(pwd)
