@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 function cecho() {
   echo "${2}${1}${reset}"

@@ -1,32 +1,42 @@
-#!/bin/bash
+#!/usr/bin/env zsh
+
 source scripts/utils.sh
 
-FILES=('.bash_profile' '.bash_prompt' '.exports' '.aliases' '.gitconfig')
-CURRENTPATH=$(pwd)
-
-cecho "[Download] dotfiles from https://github.com/froi/dotfiles" $blue
-for F in ${FILES[@]}; do
-    cecho "--> [Download]: dotfile -> ${HOME}/${F}" $cyan
-    curl https://raw.githubusercontent.com/froi/dotfiles/master/$F -o $HOME/$F
-done
-
-if [ !-d "$HOME/.hammerspoon/init.lua"]; then
+if [ ! -d "$HOME/.hammerspoon" ]; then
     mkdir -p $HOME/.hammerspoon
+    cecho "[Download] Hammerspoon/init.lua" $blue
+    curl https://gist.githubusercontent.com/froi/df2e5df19d9b79512f11/raw/aea46d10243c359d68c83694fe17a9c955380fe0/init.lua -o $HOME/.hammerspoon/init.lua
+fi
+if [ ! -a "$HOME/.hammerspoon/init.lua" ]; then
+    cecho "[Download] Hammerspoon/init.lua" $blue
+    curl https://gist.githubusercontent.com/froi/df2e5df19d9b79512f11/raw/aea46d10243c359d68c83694fe17a9c955380fe0/init.lua -o $HOME/.hammerspoon/init.lua
 fi
 
-cecho "[Download] Hammerspoon/init.lua" $blue
-curl https://gist.githubusercontent.com/froi/df2e5df19d9b79512f11/raw/5256386b2fabb7716a4a4be9ce808a8d3f6cf0ad/init.lua -o $HOME/.hammerspoon/init.lua
-
-cecho "Do you want to configure your ssh keys now? [y/n]: " $cyan
-read -r response
+vared -p "Do you want to configure your ssh keys now? [y/N]: " -c response
 if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
-    source ssh-config.sh
+    source scripts/ssh-config.sh
 else
     cecho "SSH keys not configured" $red
     cecho "You can revisit this later on." $red
     cecho "See: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/" $cyan
 fi
 
-source $HOME/.bash_profile
+if ! type "brew" > /dev/null; then
+    echo ""
+    cecho "================== Installing Homebrew ==================" $green
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+    cat << EOT >> ~/.zshrc
+    if type brew &>/dev/null; then
+        FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+
+        autoload -Uz compinit
+        compinit
+    fi
+EOT
+else
+    echo ""
+    cecho "Homebrew is already installed. Skipping." $blue
+fi
 
 cecho "Bootstrap.sh -> DONE" $green

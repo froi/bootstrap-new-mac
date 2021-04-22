@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 source ./scripts/utils.sh
 
@@ -6,13 +6,13 @@ cecho "###############################################" $cyan
 cecho "              Mac OS Setup Script              " $cyan
 cecho "              By Froilan Irizarry              " $cyan
 cecho "                                               " $cyan
-cecho "             Heavily influenced by             " $cyan
+cecho "             Heavily influenced by              " $cyan
 cecho "     https://github.com/nnja/new-computer      " $cyan
 cecho "                                               " $cyan
 cecho "      Want to follow me on the interwebs?      " $cyan
 cecho "        Github: https://github.com/froi        " $cyan
-cecho "      Twitter: https://twitter.com/skfroi      " $cyan
-cecho "       Twitch! https://twitch.tv/skfroi        " $cyan
+cecho "      Twitter: https://twitter.com/froidotdev  " $cyan
+cecho "       Twitch! https://twitch.tv/froidotdev    " $cyan
 cecho "###############################################" $cyan
 
 echo ""
@@ -52,15 +52,26 @@ cecho "=============== Bootstrapping environment ===============" $blue
 source ./scripts/bootstrap.sh
 
 echo ""
-cecho "==================== Installing Apps ====================" $blue
-source ./scripts/install.sh
+vared -p "Do you want to install Brew Casks? [y/N] " -c response
+if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  echo ""
+  cecho "============== Installing Brew Cask Apps ===============" $blue
+  source ./scripts/brew-install-cask.sh
+fi
 
 echo ""
-cecho "============== Updating Mac settings ==============" $blue
-source ./scripts/mac-settings.sh
+vared -p "Do you want to install Brew apps? [y/N] " -c response
+if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  echo ""
+  cecho "================ Installing Brew Apps ==================" $blue
+  source scripts/brew-install.sh
+fi
+# echo ""
+# cecho "============== 🍏 Updating Mac settings 🍏 ==============" $blue
+# source ./scripts/mac-settings.sh
 
 echo ""
-cecho "====================== 🎉 DONE 🎉 =======================" $green
+cecho "================ 🎉 Mac Bootstrap DONE 🎉 =================" $green
 
 echo ""
 cecho "====================== Cleaning Up ======================" $blue
