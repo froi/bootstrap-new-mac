@@ -24,7 +24,7 @@ ssh-keygen -t rsa -b 4096 -f ~/.ssh/"$defaultKeyName" -C "$useremail default key
 
 cecho "Generating GitHub ssh key" $cyan
 cecho "Using default ssh file location, enter a passphrase: " $cyan
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/"$githubKeyName" -C "$useremail default key via bootstrap script"  # will prompt for password
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/"$githubKeyName" -C "$useremail GitHub key via bootstrap script"  # will prompt for password
 
 eval "$(ssh-agent -s)"
 
